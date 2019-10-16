@@ -96,10 +96,8 @@ class GithubFetcher::IssuesTest < ActiveSupport::TestCase
   end
 
   test "call will retry API calls" do
-    # stub_request(:any, "www.github.com").
-      # to_return({body: "blerg", status: 401})
-
-    raise "foo"
+    stub_request(:any, %r{github.com})
+      .to_return({ body: { message: 'Bad credentials' }.to_json, status: 401 })
 
     fetcher = GithubFetcher::Issues.new(
       user_name: "schneems",
